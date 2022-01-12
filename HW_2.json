@@ -239,7 +239,13 @@
 							"    pm.expect(jsonData).to.have.property('qa_salary_after_12_months')\r",
 							"});\r",
 							"\r",
-							""
+							"pm.test('Проверить, что json response имеет параметр qa_salary_after_1.5_year', function() {\r",
+							"    pm.expect(jsonData).to.have.property('qa_salary_after_1.5_year')\r",
+							"});\r",
+							"\r",
+							"pm.test('Проверить, что json response имеет параметр qa_salary_after_3.5_years', function() {\r",
+							"    pm.expect(jsonData).to.have.property('qa_salary_after_3.5_years')\r",
+							"});"
 						],
 						"type": "text/javascript"
 					}
