@@ -88,7 +88,22 @@
 							"};\r",
 							"pm.test(\"Проверка структуры json в ответе\", () => {\r",
 							"    pm.response.to.have.jsonSchema(schema)\r",
-							"});"
+							"});\r",
+							"\r",
+							"//В ответе указаны коэффициенты умножения salary, напишите тесты по проверке правильности результата перемножения на коэффициент.\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test('2', () => {\r",
+							"    pm.expect(jsonData.qa_salary_after_6_months).to.eql(jsonData.start_qa_salary*2)\r",
+							"}); \r",
+							"pm.test('2.9', () => {\r",
+							"    pm.expect(jsonData.qa_salary_after_12_months).to.eql(jsonData.start_qa_salary*2.9)\r",
+							"});\r",
+							"pm.test('4', () => {\r",
+							"    pm.expect(jsonData.person.u_salary_1_5_year).to.eql(jsonData.start_qa_salary*4)\r",
+							"});\r",
+							"\r",
+							"//Достать значение из поля 'u_salary_1.5_year' и передать в поле salary запроса http://162.55.220.72:5005/get_test_user\r",
+							"pm.environment.set('salary',jsonData.person.u_salary_1_5_year);"
 						],
 						"type": "text/javascript"
 					}
