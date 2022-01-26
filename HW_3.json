@@ -132,6 +132,124 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "/new_data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Проверка структуры json в ответе\r",
+							"var schema = {\r",
+							"    \"type\":\"object\",\r",
+							"    \"properties\":{\r",
+							"        \"age\":{\"type\":\"integer\"},\r",
+							"        \"name\":{\"type\":\"string\"},\r",
+							"        \"salary\":{\r",
+							"            \"type\":\"array\",\r",
+							"            \"items\":[\r",
+							"                {\"type\":\"integer\"},\r",
+							"                {\"type\":\"string\"},\r",
+							"                {\"type\":\"string\"}\r",
+							"            ]\r",
+							"        }\r",
+							"    }\r",
+							"};\r",
+							"\r",
+							"pm.test(\"Проверка стуркутры json в ответе\", function () {\r",
+							"    pm.response.to.have.jsonSchema(schema);\r",
+							"});\r",
+							"\r",
+							"//В ответе указаны коэффициенты умножения salary, напишите тесты по проверке правильности результата перемножения на коэффициент.\r",
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test('коэффициент 2', () => {\r",
+							"    pm.expect(+jsonData.salary[1]).to.eql(jsonData.salary[0]*2)\r",
+							"});\r",
+							"\r",
+							"pm.test('коэффициент 3', () => {\r",
+							"    pm.expect(+jsonData.salary[2]).to.eql(jsonData.salary[0]*3)\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test('проверить, что 2-й элемент массива salary больше 0-го', () => {\r",
+							"    pm.expect(+jsonData.salary[2]).to.be.above(jsonData.salary[0])\r",
+							"});\r",
+							"\r",
+							"pm.test('проверить, что 2-й элемент массива salary больше 1-го', () => {\r",
+							"    pm.expect(+jsonData.salary[2]).to.be.above(+jsonData.salary[1])\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "age",
+							"value": "24",
+							"type": "text"
+						},
+						{
+							"key": "salary",
+							"value": "30000",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Daniil",
+							"type": "text"
+						},
+						{
+							"key": "auth_token",
+							"value": "{{token}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/new_data",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"new_data"
+					],
+					"query": [
+						{
+							"key": "age",
+							"value": "24",
+							"disabled": true
+						},
+						{
+							"key": "salary",
+							"value": "30000",
+							"disabled": true
+						},
+						{
+							"key": "name",
+							"value": "'Daniil'",
+							"disabled": true
+						},
+						{
+							"key": "auth_token",
+							"value": "{{token}}",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
