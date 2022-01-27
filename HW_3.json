@@ -250,6 +250,87 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "/test_pet_info",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Проверка структуры json\r",
+							"var schema = {\r",
+							"    'type':'object',\r",
+							"    'properties':{\r",
+							"        'age':{'type':'integer'},\r",
+							"        'daily_food':{'type':'number'},\r",
+							"        'daily_sleep':{'type':'number'},\r",
+							"        'name':{'type':'string'}\r",
+							"    }\r",
+							"};\r",
+							"\r",
+							"pm.test(\"Проверка стуркутры json в ответе\", function () {\r",
+							"    pm.response.to.have.jsonSchema(schema);\r",
+							"});\r",
+							"\r",
+							"//В ответе указаны коэффициенты умножения weight, напишите тесты по проверке правильности результата перемножения на коэффициент.\r",
+							"var jsonData = pm.response.json();\r",
+							"var wes = request.data.weight;\r",
+							"\r",
+							"pm.test('Проверка коэффциента 0.012', () => {\r",
+							"    pm.expect(jsonData.daily_food).to.eql(wes*0.012)\r",
+							"});\r",
+							"pm.test('Проверка коэффциента 2.5', () => {\r",
+							"    pm.expect(jsonData.daily_sleep).to.eql(wes*2.5)\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "age",
+							"value": "24",
+							"type": "text"
+						},
+						{
+							"key": "weight",
+							"value": "97",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Daniil",
+							"type": "text"
+						},
+						{
+							"key": "auth_token",
+							"value": "{{token}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/test_pet_info",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"test_pet_info"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
